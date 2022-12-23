@@ -4,15 +4,17 @@ public class Account {
     String email;
     String password;
     boolean blocked = true;
+    int count = 0;
 
     public Account(){}
 
-    public Account(String FIO, String dateBirth, String email, String password) {
+    public Account(String FIO, String dateBirth, String email, String password, int count) {
         this.FIO = FIO;
         this.dateBirth = dateBirth;
         this.email = email;
         this.password = password;
         this.blocked = false;
+        this.count = count;
 
     }
     @Override
@@ -51,5 +53,13 @@ public class Account {
     public Boolean getBlocked() {
         return blocked;
     }
+    public void setCount(int count) {
+        this.count = count;
+    }
+    public int getCount() {
+        return count;
+    }
+    public void count_enter() { this.count++; }
+    public void login(Integer zero) { this.count = zero; }
 
 }

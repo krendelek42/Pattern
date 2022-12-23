@@ -5,6 +5,7 @@ import java.util.Objects;
 public class FileAccountManager implements AccountManager {
     protected ArrayList<Account> accounts;
     public FileService file = FileService.getInstance();
+    public FailedLoginCounter counter = FailedLoginCounter.getInstance();
 
     public void register(Account account) throws IOException {
         accounts = file.ReadCVS();
@@ -40,17 +41,31 @@ public class FileAccountManager implements AccountManager {
             // ошибка что неверно введены данные: почта или пароль
         } else {
 
-            if (accounts.get(new_i).getPassword() == password && !accounts.get(new_i).getBlocked()) {
-                // добавить попытки входа
-                System.out.println("Вы вошли в аккаунт");
+            if (accounts.get(new_i).getPassword() == password && !accounts.get(new_i).getBlocked() && accounts.get(new_i).getCount() <4) {
+
+                counter.login_true(accounts.get(new_i));
                 file.WriteCVS(accounts);
+                System.out.println("Вы вошли в аккаунт");
                 return accounts.get(new_i);
-            } else if (accounts.get(new_i).getPassword() == password) {
+
+            } else if (accounts.get(new_i).getPassword() == password && accounts.get(new_i).getCount() >= 4) {
                 accounts.get(new_i).setBlocked();
+                counter.login_true(accounts.get(new_i));
                 file.WriteCVS(accounts);
                 System.out.println("Аккаунт разблокирован. Вы вошли в аккаунт");
                 return accounts.get(new_i);
-            } // добавить счетчик
+            } else if (accounts.get(new_i).getPassword() != password) {
+                counter.logint_false(accounts.get(new_i));
+
+                if (accounts.get(new_i).getCount() > 4) {
+                    accounts.get(new_i).setBlocked();
+                    file.WriteCVS(accounts);
+                    // ошибка что акк заблок
+                } else {
+                    file.WriteCVS(accounts);
+                    // ошибка неверного пароля
+                }
+            }
         }
         return accounts.get(new_i);
     }
@@ -69,13 +84,13 @@ public class FileAccountManager implements AccountManager {
         }
 
         if (number == 0) {
-            //
+            // ошибка неверного пароля и почты
         } else {
             if (accounts.get(new_i).getPassword() == password) {
                 accounts.remove(new_i);
                 file.WriteCVS(accounts);
                 System.out.println("Аккаунт удален");
-            } //
+            } // ошибка неверного пароля и почты
         }
 
 
