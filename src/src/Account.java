@@ -6,15 +6,14 @@ public class Account {
     boolean blocked = true;
     int count = 0;
 
-    public Account(){}
 
-    public Account(String FIO, String dateBirth, String email, String password, int count) {
+    public Account(String FIO, String dateBirth, String email, String password) {
         this.FIO = FIO;
         this.dateBirth = dateBirth;
         this.email = email;
         this.password = password;
         this.blocked = false;
-        this.count = count;
+        this.count = 0;
 
     }
     @Override

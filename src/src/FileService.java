@@ -40,7 +40,7 @@ public class FileService {
 
             while ((line = reader.readLine()) != null) {
                 scanner = new Scanner(line);
-                Account account = new Account();
+                Account account = new Account("Докукина_К_А", "13.11.2002", "dudukina777@gmail.com", "123456");
                 scanner.useDelimiter(",");
 
                 while (scanner.hasNext()) {
