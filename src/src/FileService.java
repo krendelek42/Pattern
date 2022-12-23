@@ -32,36 +32,39 @@ public class FileService {
     public ArrayList<Account> ReadCVS() throws IOException {
         // read information about account from CVS file
         ArrayList<Account> accounts = new ArrayList<>();
-        String line; // добавить ошибки
-        Scanner scanner;
-        int i = 0;
-
         String file = "fileAccount.cvs";
-        BufferedReader reader = new BufferedReader(new FileReader(file));
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line; // добавить ошибки
+            Scanner scanner;
+            int i = 0;
 
-        while ((line = reader.readLine()) != null) {
-            scanner = new Scanner(line);
-            Account account = new Account();
-            scanner.useDelimiter(",");
+            while ((line = reader.readLine()) != null) {
+                scanner = new Scanner(line);
+                Account account = new Account();
+                scanner.useDelimiter(",");
 
-            while (scanner.hasNext()) {
-                String data = scanner.next();
-                if (i == 0) {account.setFIO(data);}
-                else if (i == 1) {account.setDateBirth(data);}
-                else if (i == 2) {account.setEmail(data);}
-                else if (i == 3) {account.setPassword(data);}
-                else if (i == 4) {account.setBlocked();}
-                else {
-                    System.out.println("-----");
+                while (scanner.hasNext()) {
+                    String data = scanner.next();
+                    if (i == 0) {account.setFIO(data);}
+                    else if (i == 1) {account.setDateBirth(data);}
+                    else if (i == 2) {account.setEmail(data);}
+                    else if (i == 3) {account.setPassword(data);}
+                    else if (i == 4) {account.setBlocked();}
+                    else {
+                        System.out.println("-----");
+                    }
+                    i++;
+
                 }
-                i++;
+                accounts.add(account);
+                i=0;
+
 
             }
-            accounts.add(account);
-            i=0;
-
-
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return accounts;
     }
 

@@ -4,13 +4,13 @@ public interface AccountManager {
         /** Интерфейс управления аккаунтами, для базы используется
          * * текстовый файл в формате CSV */
 
-    void register(Account account) throws IOException;
+    void register(Account account) throws IOException, AccountAlreadyExistsException;
     /**
      * Метод проверяет по полю email, что данный аккаунт в базе
      * отсутствует, и создает новую запись, в противном случае
      * выбрасывает ошибку AccountAlreadyExistsException
      */
-    Account login(String email, String password) throws IOException;
+    Account login(String email, String password) throws IOException, WrongDataException, BlockedAccountException;
     /**
      * Метод возвращает Account, если для email+пароль есть
      * подходящая запись в базе и аккаунт не заблокирован.
@@ -21,7 +21,7 @@ public interface AccountManager {
      * Если для конкретного пользователя больше 5 неудачных
      * попыток авторизоваться, то аккаунт блокируется.
      */
-    void removeAccount(String email, String password) throws IOException;
+    void removeAccount(String email, String password) throws IOException, WrongDataException;
     /**
      * Метод удаляет пользователя из базы, если логин и пароль
      * введены верно. В противном случае выбрасывает

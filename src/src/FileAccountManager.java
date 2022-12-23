@@ -7,7 +7,7 @@ public class FileAccountManager implements AccountManager {
     public FileService file = FileService.getInstance();
     public FailedLoginCounter counter = FailedLoginCounter.getInstance();
 
-    public void register(Account account) throws IOException {
+    public void register(Account account) throws IOException, AccountAlreadyExistsException {
         accounts = file.ReadCVS();
         int number = 0;
 
@@ -21,11 +21,11 @@ public class FileAccountManager implements AccountManager {
             accounts.add(account);
             file.WriteCVS(accounts);
             System.out.println("Зарегистрирован аккаунт с email:" + account.getEmail());
-        } // ошибку что акк уже есть
+        } throw new AccountAlreadyExistsException("Аккаунт с email:" + account.getEmail() + "уже зарегестрирован");
 
     }
 
-    public Account login(String email, String password) throws IOException {
+    public Account login(String email, String password) throws IOException, WrongDataException, BlockedAccountException {
         accounts = file.ReadCVS();
         int number = 0;
         int new_i = 0;
@@ -38,7 +38,7 @@ public class FileAccountManager implements AccountManager {
         }
 
         if (number == 0) {
-            // ошибка что неверно введены данные: почта или пароль
+            throw new WrongDataException("Неверный email или пароль");
         } else {
 
             if (accounts.get(new_i).getPassword() == password && !accounts.get(new_i).getBlocked() && accounts.get(new_i).getCount() <4) {
@@ -60,17 +60,17 @@ public class FileAccountManager implements AccountManager {
                 if (accounts.get(new_i).getCount() > 4) {
                     accounts.get(new_i).setBlocked();
                     file.WriteCVS(accounts);
-                    // ошибка что акк заблок
+                    throw new BlockedAccountException("Аккаунт заблокирован");
                 } else {
                     file.WriteCVS(accounts);
-                    // ошибка неверного пароля
+                    throw new WrongDataException("Неверный email или пароль");
                 }
             }
         }
         return accounts.get(new_i);
     }
 
-    public void removeAccount(String email, String password) throws IOException {
+    public void removeAccount(String email, String password) throws IOException, WrongDataException {
 
         accounts = file.ReadCVS();
         int number = 0;
@@ -84,13 +84,13 @@ public class FileAccountManager implements AccountManager {
         }
 
         if (number == 0) {
-            // ошибка неверного пароля и почты
+            throw new WrongDataException("Неверный email или пароль");
         } else {
             if (accounts.get(new_i).getPassword() == password) {
                 accounts.remove(new_i);
                 file.WriteCVS(accounts);
                 System.out.println("Аккаунт удален");
-            } // ошибка неверного пароля и почты
+            } throw new WrongDataException("Неверный email или пароль");
         }
 
 
