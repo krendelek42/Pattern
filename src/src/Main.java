@@ -20,7 +20,7 @@ public class Main {
         try {
             for (int i = 0; i < 5; i++) {
                 try {
-                    dateAccount.login("braer.a.s@gmail.com", "0000");
+                    dateAccount.login("dudukina777@gmail.com", "0000");
 
                 } catch (WrongDataException e) {
                     System.out.println(e.getMessage());
@@ -30,20 +30,20 @@ public class Main {
         } catch (BlockedAccountException e) {
             System.out.println(e.getMessage());
         }
-        dateAccount.login("braer.a.s@gmail.com", "12345");
+        dateAccount.login("dudukina777@gmail.com", "123456");
 
         try {
-            dateAccount.login("ivan001@gmail.com", "0000");
+            dateAccount.login("vfrdre@gmail.com", "0000");
 
         } catch (WrongDataException e) {
             System.out.println(e.getMessage());
         }
 
-        dateAccount.login("ivan001@gmail.com", "010101j");
+        dateAccount.login("vfrdre@gmail.com", "654321");
 
         for (int i = 0; i < 3; i++) {
             try {
-                dateAccount.login("ivan001@gmail.com", "0000");
+                dateAccount.login("vfrdre@gmail.com", "0000");
 
             } catch (WrongDataException e) {
                 System.out.println(e.getMessage());
@@ -51,16 +51,16 @@ public class Main {
 
         }
 
-        dateAccount.login("ivan001@gmail.com", "010101j");
+        dateAccount.login("vfrdre@gmail.com", "654321");
 
-        dateAccount.removeAccount("braer.a.s@gmail.com", "12345");
+        dateAccount.removeAccount("dudukina777@gmail.com", "12345");
         try {
-            dateAccount.removeAccount("ivan001@gmail.com", "0000");
+            dateAccount.removeAccount("vfrdre@gmail.com", "0000");
 
         } catch (WrongDataException e) {
             System.out.println(e.getMessage());
         }
-        dateAccount.removeAccount("ivan001@gmail.com", "010101j");
+        dateAccount.removeAccount("vfrdre@gmail.com", "654321");
 
 
     }

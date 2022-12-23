@@ -51,7 +51,7 @@ public class FileService {
                     else if (i == 3) {account.setPassword(data);}
                     else if (i == 4) {account.setBlocked();}
                     else {
-                        System.out.println("-----");
+                        System.out.println("Данные неверны");
                     }
                     i++;
 
