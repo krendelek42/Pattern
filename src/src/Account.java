@@ -1,10 +1,10 @@
 public class Account {
-    String FIO;
-    String dateBirth;
-    String email;
-    String password;
-    boolean blocked = true;
-    int count = 0;
+    private String FIO;
+    private String dateBirth;
+    private String email;
+    private String password;
+    private boolean blocked = true;
+    private int count = 0;
 
 
     public Account(String FIO, String dateBirth, String email, String password) {
