@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class FileAccountManager implements AccountManager {
-    protected ArrayList<Account> accounts;
+    public ArrayList<Account> accounts;
     public FileService file = FileService.getInstance();
     public FailedLoginCounter counter = FailedLoginCounter.getInstance();
 
@@ -21,7 +21,7 @@ public class FileAccountManager implements AccountManager {
             accounts.add(account);
             file.WriteCVS(accounts);
             System.out.println("Зарегистрирован аккаунт с email:" + account.getEmail());
-        } throw new AccountAlreadyExistsException("Аккаунт с email:" + account.getEmail() + "уже зарегестрирован");
+        } throw new AccountAlreadyExistsException("Аккаунт с email:" + account.getEmail() + " уже зарегестрирован");
 
     }
 
